@@ -1,0 +1,36 @@
+#!/bin/bash
+# ##########################################################################################
+# #### Description
+
+# Adjusts screen backlight brightness from command line. It takes as argument a percentage
+# and calculates the final value, based on the maximum brightness of the monitor.
+#
+# Usage:
+# qbb [percentage]
+#
+# Example for setting brightness to 50%:
+# qbb 50
+
+# ##########################################################################################
+# #### Settings
+
+# Full path of the max_brightness file, containing the maximum brightness of the monitor
+max_brightness_path="/sys/class/backlight/intel_backlight/max_brightness"
+
+# ##########################################################################################
+# #### Main
+
+# Get the argument
+desired_brightness=$1
+
+# Get the maximum brightness and put into a variable
+max_brightness=$(cat "$max_brightness_path")     
+
+# Calculate the final value
+final_value=$(($max_brightness * $desired_brightness / 100))
+
+# Set the final value
+echo $final_value > /sys/class/backlight/intel_backlight/brightness
+
+# Return message
+echo 'Setting the backlog value to' $final_value '('$desired_brightness'%' of $max_brightness')'

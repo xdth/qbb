@@ -17,8 +17,11 @@
 # ##########################################################################################
 # #### Settings
 
-# Full path of the max_brightness file, containing the maximum brightness of the monitor
+# Full path of the 'max_brightness' file, containing the maximum brightness of the monitor
 max_brightness_path="/sys/class/backlight/intel_backlight/max_brightness"
+
+# Full path of the 'brightness' file, containing the current brightness of the monitor
+current_brightness="/sys/class/backlight/intel_backlight/brightness"
 
 # ##########################################################################################
 # #### Main
@@ -33,7 +36,7 @@ max_brightness=$(cat "$max_brightness_path")
 final_value=$(($max_brightness * $desired_brightness / 100))
 
 # Set the final value
-echo $final_value > /sys/class/backlight/intel_backlight/brightness
+echo $final_value > $current_brightness
 
 # Return message
 echo 'Setting the backlog value to' $final_value '('$desired_brightness'%' of $max_brightness')'
